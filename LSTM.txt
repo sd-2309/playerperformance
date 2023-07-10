@@ -1,0 +1,170 @@
+!/usr/bin/env python
+# coding: utf-8
+
+from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
+
+import pandas as pd
+import numpy as np
+rohit_ground = pd.read_excel("rohit_ground.xlsx")
+rohit_opp = pd.read_excel("rohit_opp.xlsx")
+rohit_stats = pd.read_excel("rohit_stats.xlsx")
+surya_ground = pd.read_excel("sky_ground.xlsx")
+surya_opp = pd.read_excel("sky_opp.xlsx")
+surya_stats = pd.read_excel("sky_stats.xlsx")
+gill_ground = pd.read_excel("gill_ground.xlsx")
+gill_opp = pd.read_excel("gill_opp.xlsx")
+gill_stats = pd.read_excel("gill_stats.xlsx")
+hardik_ground = pd.read_excel("hardik_ground.xlsx")
+hardik_opp = pd.read_excel("hardik_opp.xlsx")
+hardik_stats = pd.read_excel("hardik_stats.xlsx")
+jaddu_ground = pd.read_excel("jaddu_ground.xlsx")
+jaddu_opp = pd.read_excel("jaddu_opp.xlsx")
+jaddu_stats = pd.read_excel("jaddu_stats.xlsx")
+rahul_ground = pd.read_excel("rahul_ground.xlsx")
+rahul_opp = pd.read_excel("rahul_opp.xlsx")
+rahul_stats = pd.read_excel("rahul_stats.xlsx")
+dhawan_ground = pd.read_excel("dhawan_ground.xlsx")
+dhawan_opp = pd.read_excel("dhawan_opp.xlsx")
+dhawan_stats = pd.read_excel("dhawan_stats.xlsx")
+kohli_ground = pd.read_excel("kohli_ground.xlsx")
+kohli_opp = pd.read_excel("kohli_opp.xlsx")
+kohli_stats = pd.read_excel("kohli_stats.xlsx")
+
+
+
+
+
+
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from keras.models import Sequential
+from keras.layers import LSTM, Dense
+
+# Load the data
+kohli_stats = pd.read_excel("kohli_stats.xlsx")
+
+
+# Convert the "Runs" column to a NumPy array
+data = kohli_stats['Runs'].values
+
+# Normalize the data
+scaler = MinMaxScaler(feature_range=(0, 1))
+data = scaler.fit_transform(data.reshape(-1, 1))
+
+
+
+
+# Split the data into training and testing sets
+train_size = int(len(data) * 0.8)
+train_data = data[:train_size]
+test_data = data[train_size:]
+
+# Prepare the data for the LSTM model
+def create_sequences(data, seq_length):
+    X = []
+    y = []
+    for i in range(len(data) - seq_length - 1):
+        X.append(data[i:(i + seq_length)])
+        y.append(data[i + seq_length])
+    return np.array(X), np.array(y)
+
+seq_length = 10
+X_train, y_train = create_sequences(train_data, seq_length)
+X_test, y_test = create_sequences(test_data, seq_length)
+
+# Reshape the data for the LSTM model
+num_features = X_train.shape[2]  # Get the number of features from the shape of X_train
+X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], num_features))
+X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], num_features))
+
+# Define the LSTM model
+model = Sequential()
+model.add(LSTM(50, input_shape=(seq_length, num_features)))
+model.add(Dense(1))
+model.compile(loss='mean_squared_error', optimizer='adam')
+
+# Train the LSTM model
+model.fit(X_train, y_train, epochs=150, batch_size=8, verbose=1)
+
+# Evaluate the performance of the model on the testing data
+mse = model.evaluate(X_test, y_test, verbose=1)
+print("Mean Squared Error:", mse)
+
+
+
+# Make predictions
+n_samples = len(data) - seq_length
+X_pred = np.zeros((n_samples, seq_length, 1))
+for i in range(n_samples):
+    X_pred[i] = data[i:i+seq_length].reshape(-1, 1)
+predictions = model.predict(X_pred)
+
+# Denormalize the predictions
+predictions = scaler.inverse_transform(predictions)
+
+# Print the predictions
+for i, prediction in enumerate(predictions):
+    print(f"Match {i+seq_length+20}: Predicted Runs: {int(prediction[0])}")
+
+
+
+
+# Make predictions
+n_samples = len(X_test)
+X_pred = np.zeros((n_samples, seq_length, 1))
+for i in range(n_samples):
+    X_pred[i] = test_data[i:i+seq_length].reshape(-1, 1)
+predictions = model.predict(X_pred)
+
+# Denormalize the predictions
+predictions = scaler.inverse_transform(predictions)
+
+# Convert the predictions to binary labels based on a threshold
+threshold = 0.5
+binary_predictions = np.where(predictions > threshold, 1, 0)
+
+# Convert the true labels to binary format
+binary_true_labels = np.where(y_test > threshold, 1, 0)
+
+# Calculate the confusion matrix, accuracy, recall, precision, and F1 score
+cm = confusion_matrix(binary_true_labels, binary_predictions)
+accuracy = accuracy_score(binary_true_labels, binary_predictions)
+recall = recall_score(binary_true_labels, binary_predictions)
+precision = precision_score(binary_true_labels, binary_predictions)
+f1 = f1_score(binary_true_labels, binary_predictions)
+
+# Print the evaluation metrics
+print("Confusion Matrix:")
+print(cm)
+print("Accuracy:", accuracy)
+print("Recall:", recall)
+print("Precision:", precision)
+print("F1 Score:", f1)
+
+
+
+
+
+
+

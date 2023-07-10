@@ -1,0 +1,426 @@
+import pandas as pd 
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+
+Kohli_ground = pd.read_excel("kohli_ground.xlsx")
+Kohli_opp = pd.read_excel("kohli_opp.xlsx")
+Kohli_df = pd.read_excel("kohli_stats.xlsx")
+#Ground data
+Y = Kohli_ground["Runs"]
+X = Kohli_ground["Ground"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Ground')
+plt.ylabel('Runs')
+plt.title('Kohli Ground Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+
+#Opposition data
+Y = Kohli_opp["Runs"]
+X = Kohli_opp["Opposition"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Opposition')
+plt.ylabel('Runs')
+plt.title('Kohli Opposition Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+
+# Calculate the moving average of the runs scored in each innings over a window of 3 innings
+window_size = 6
+Kohli_df['Moving Average'] = Kohli_df['Runs'].rolling(window_size).mean()
+
+# Calculate the overall average of the batsman
+overall_average = Kohli_df['Runs'].mean()
+
+# Add a column for innings number
+Kohli_df['Innings_NO'] = range(1, len(Kohli_df) + 1)
+
+# Plot the moving average and overall average over time
+plt.plot(Kohli_df['Innings_NO'], Kohli_df['Moving Average'], label='Moving Average')
+plt.axhline(y=overall_average, linestyle='--', color='red', label='Overall Average')
+plt.xlabel('Innings')
+plt.ylabel('Runs')
+plt.title('Kohli Form Analysis')
+plt.legend()
+plt.show()
+
+
+
+Rohit_ground = pd.read_excel("rohit_ground.xlsx")
+Rohit_opp = pd.read_excel("rohit_opp.xlsx")
+Rohit_df = pd.read_excel("rohit_stats.xlsx")
+
+# Ground data
+Y = Rohit_ground["Runs"]
+X = Rohit_ground["Ground"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Ground')
+plt.ylabel('Runs')
+plt.title('Rohit Sharma Ground Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+# Opposition data
+Y = Rohit_opp["Runs"]
+X = Rohit_opp["Opposition"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Opposition')
+plt.ylabel('Runs')
+plt.title('Rohit Sharma Opposition Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+# Calculate the moving average of the runs scored in each innings over a window of 3 innings
+window_size = 3
+Rohit_df['Moving Average'] = Rohit_df['Runs'].rolling(window_size).mean()
+
+# Calculate the overall average of the batsman
+overall_average = Rohit_df['Runs'].mean()
+
+# Add a column for innings number
+Rohit_df['Innings_NO'] = range(1, len(Rohit_df) + 1)
+
+# Plot the moving average and overall average over time
+plt.plot(Rohit_df['Innings_NO'], Rohit_df['Moving Average'], label='Moving Average')
+plt.axhline(y=overall_average, linestyle='--', color='red', label='Overall Average')
+plt.xlabel('Innings')
+plt.ylabel('Runs')
+plt.title('Rohit Sharma Form Analysis')
+plt.legend()
+plt.show()
+
+
+
+Rohit_ground = pd.read_excel("rohit_ground.xlsx")
+Rohit_opp = pd.read_excel("rohit_opp.xlsx")
+Rohit_df = pd.read_excel("rohit_stats.xlsx")
+
+# Ground data
+Y = Rohit_ground["Runs"]
+X = Rohit_ground["Ground"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Ground')
+plt.ylabel('Runs')
+plt.title('Rohit Sharma Ground Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+# Opposition data
+Y = Rohit_opp["Runs"]
+X = Rohit_opp["Opposition"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Opposition')
+plt.ylabel('Runs')
+plt.title('Rohit Sharma Opposition Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+# Calculate the moving average of the runs scored in each innings over a window of 3 innings
+window_size = 3
+Rohit_df['Moving Average'] = Rohit_df['Runs'].rolling(window_size).mean()
+
+# Calculate the overall average of the batsman
+overall_average = Rohit_df['Runs'].mean()
+
+# Add a column for innings number
+Rohit_df['Innings_NO'] = range(1, len(Rohit_df) + 1)
+
+# Plot the moving average and overall average over time
+plt.plot(Rohit_df['Innings_NO'], Rohit_df['Moving Average'], label='Moving Average')
+plt.axhline(y=overall_average, linestyle='--', color='red', label='Overall Average')
+plt.xlabel('Innings')
+plt.ylabel('Runs')
+plt.title('Rohit Sharma Form Analysis')
+plt.legend()
+plt.show()
+
+
+
+Sky_ground = pd.read_excel("sky_ground.xlsx")
+Sky_opp = pd.read_excel("sky_opp.xlsx")
+Sky_df = pd.read_excel("sky_stats.xlsx")
+
+# Ground data
+Y = Sky_ground["Runs"]
+X = Sky_ground["Ground"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Ground')
+plt.ylabel('Runs')
+plt.title('SKY Ground Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+# Opposition data
+Y = Sky_opp["Runs"]
+X = Sky_opp["Opposition"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Opposition')
+plt.ylabel('Runs')
+plt.title('Sky Opposition Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+
+
+Gill_ground = pd.read_excel("gill_ground.xlsx")
+Gill_opp = pd.read_excel("gill_opp.xlsx")
+Gill_df = pd.read_excel("gill_stats.xlsx")
+
+
+# Ground data
+Y = Gill_ground["Runs"]
+X = Gill_ground["Ground"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Ground')
+plt.ylabel('Runs')
+plt.title('Shubman Gill Ground Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+# Opposition data
+Y = Gill_opp["Runs"]
+X = Gill_opp["Opposition"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Opposition')
+plt.ylabel('Runs')
+plt.title('shubhmann gill Opposition Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+
+
+Hardik_ground = pd.read_excel("hardik_ground.xlsx")
+Hardik_opp = pd.read_excel("hardik_opp.xlsx")
+Hardik_df = pd.read_excel("hardik_stats.xlsx")
+
+
+# Ground data
+Y = Hardik_ground["Runs"]
+X = Hardik_ground["Ground"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Ground')
+plt.ylabel('Runs')
+plt.title('Hardik pandya Ground Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+# Opposition data
+Y = Hardik_opp["Runs"]
+X = Hardik_opp["Opposition"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Opposition')
+plt.ylabel('Runs')
+plt.title('Hardik Pandya Opposition Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+
+
+Hardik_opp
+
+
+
+Jaddu_ground = pd.read_excel("jaddu_ground.xlsx")
+Jaddu_opp = pd.read_excel("jaddu_opp.xlsx")
+Jaddu_df = pd.read_excel("jaddu_stats.xlsx")
+
+# Ground data
+Y = Jaddu_ground["Runs"]
+X = Jaddu_ground["Ground"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Ground')
+plt.ylabel('Runs')
+plt.title('Ravindra jadejaGround Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+# Opposition data
+Y = Jaddu_opp["Runs"]
+X = Jaddu_opp["Opposition"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Opposition')
+plt.ylabel('Runs')
+plt.title('Ravindra Jadeja Opposition Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+
+
+Rahul_ground = pd.read_excel("rahul_ground.xlsx")
+Rahul_opp = pd.read_excel("rahul_opp.xlsx")
+Rahul_df = pd.read_excel("rahul_stats.xlsx")
+
+# Ground data
+Y = Rahul_ground["Runs"]
+X = Rahul_ground["Ground"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Ground')
+plt.ylabel('Runs')
+plt.title('Rahul Ground Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+# Opposition data
+Y = Rahul_opp["Runs"]
+X = Rahul_opp["Opposition"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Opposition')
+plt.ylabel('Runs')
+plt.title('Rahul Opposition Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+
+
+Dhawan_ground = pd.read_excel("dhawan_ground.xlsx")
+Dhawan_opp = pd.read_excel("dhawan_opp.xlsx")
+Dhawan_df = pd.read_excel("dhawan_stats.xlsx")
+# Ground data
+Y = Dhawan_ground["Runs"]
+X = Dhawan_ground["Ground"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Ground')
+plt.ylabel('Runs')
+plt.title('Dhawan Ground Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()
+
+# Opposition data
+Y = Dhawan_opp["Runs"]
+X = Dhawan_opp["Opposition"]
+plt.figure(figsize=(12,8))
+bars = plt.bar(X, Y)
+plt.xticks(rotation='vertical')
+plt.xlabel('Opposition')
+plt.ylabel('Runs')
+plt.title('Dhawan Opposition Stats')
+
+# Add labels to bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, int(height), ha='center', va='bottom')
+
+plt.show()

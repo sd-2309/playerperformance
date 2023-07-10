@@ -1,0 +1,187 @@
+# Import required libraries
+# hardik pandya
+import numpy as np
+import pandas as pd
+URL = "https://stats.espncricinfo.com/ci/engine/player/625371.html?class=3;template=results;type=batting;view=innings"
+all_tables = pd.read_html(URL)
+all_tables = all_tables[3]
+all_tables.to_excel('Hardik.xlsx', index=False)
+
+# virat kohli
+URL = "https://stats.espncricinfo.com/ci/engine/player/253802.html?class=3;template=results;type=batting;view=innings"
+all_tables = pd.read_html(URL)
+all_tables = all_tables[3]
+all_tables.to_excel('Kohli.xlsx', index=False)
+
+#rohit sharma
+URL = "https://stats.espncricinfo.com/ci/engine/player/34102.html?class=3;template=results;type=batting;view=innings"
+all_tables = pd.read_html(URL)
+all_tables = all_tables[3]
+all_tables.to_excel('Rohit.xlsx', index=False)
+
+#surya
+URL = "https://stats.espncricinfo.com/ci/engine/player/446507.html?class=3;template=results;type=batting;view=innings"
+all_tables = pd.read_html(URL)
+all_tables = all_tables[3]
+all_tables.to_excel('SKY.xlsx', index=False)
+
+#shubhman gill
+URL = "https://stats.espncricinfo.com/ci/engine/player/1070173.html?class=3;template=results;type=batting;view=innings"
+all_tables = pd.read_html(URL)
+all_tables = all_tables[3]
+all_tables.to_excel('Gill.xlsx', index=False)
+
+#ravindra jadeja
+URL = "https://stats.espncricinfo.com/ci/engine/player/234675.html?class=3;template=results;type=batting;view=innings"
+all_tables = pd.read_html(URL)
+all_tables = all_tables[3]
+all_tables.to_excel('Ravindra.xlsx', index=False)
+
+#Shikhar dhawan
+URL = "https://stats.espncricinfo.com/ci/engine/player/28235.html?class=3;template=results;type=batting;view=innings"
+all_tables = pd.read_html(URL)
+all_tables = all_tables[3]
+all_tables.to_excel('Dhawan.xlsx', index=False)
+
+# Kl rahul
+URL = "https://stats.espncricinfo.com/ci/engine/player/422108.html?class=3;template=results;type=batting;view=innings"
+all_tables = pd.read_html(URL)
+all_tables = all_tables[3]
+all_tables.to_excel('Rahul.xlsx', index=False)
+
+
+
+# Clean the data
+def clean_data(df):
+    df = df[~df['Runs'].str.contains('\DNB')]
+    df.loc[df['Runs'].str.contains('\*'), 'Runs'] = df['Runs'].str.replace('\*', '')
+    df = df.drop(['Unnamed: 9', 'Mins','Unnamed: 13','BF'], axis=1)
+    df['Runs'] = df['Runs'].astype(int)
+    return df
+
+# Calculate player vs oppositon statistics
+
+def Opposition_stats(df):
+    Opposition = df.groupby(["Opposition"])["Runs"].agg([("Innings","count"), ("average","mean"), "max", "min",("Runs", "sum")]).reset_index()
+    Opposition_stats.columns = ["Ground", "Innings", "average", "max", "min", "Runs"]
+    Opposition.rename(columns={"mean": "average", "count": "Innings"}, inplace=True)
+    Opposition["average"] = Opposition["average"].round(1)
+    return Opposition
+
+# Calculate player at ground statistics
+def Ground_stats(df):
+    Ground_stats = df.groupby(["Ground"])["Runs"].agg([("Innings","count"), ("average", "mean"), "max", "min",("Runs", "sum")]).reset_index()
+    Ground_stats.columns = ["Ground", "Innings", "average", "max", "min", "Runs"]
+    Ground_stats.rename(columns={"mean": "average", "count": "Innings"}, inplace=True)
+    Ground_stats["average"] = Ground_stats["average"].round(1)
+    return Ground_stats
+
+
+
+# Read player data from Excel files
+kohli_df = pd.read_excel("Kohli.xlsx")
+rohit_df = pd.read_excel("Rohit.xlsx")
+rahul_df = pd.read_excel("Rahul.xlsx")
+hardik_df = pd.read_excel("Hardik.xlsx")
+dhawan_df = pd.read_excel("Dhawan.xlsx")
+sky_df = pd.read_excel("SKY.xlsx")
+gill_df = pd.read_excel("Gill.xlsx")
+jaddu_df = pd.read_excel("Ravindra.xlsx")
+
+
+
+kohli_df = clean_data(kohli_df)
+kohli_df.to_excel('kohli_stats.xlsx', index=False)
+
+rohit_df = clean_data(rohit_df)
+rohit_df.to_excel('rohit_stats.xlsx', index=False)
+
+rahul_df = clean_data(rahul_df)
+rahul_df.to_excel('rahul_stats.xlsx', index=False)
+
+hardik_df = clean_data(hardik_df)
+hardik_df.to_excel('hardik_stats.xlsx', index=False)
+
+dhawan_df = clean_data(dhawan_df)
+dhawan_df.to_excel('dhawan_stats.xlsx', index=False)
+
+sky_df = clean_data(sky_df)
+sky_df.to_excel('sky_stats.xlsx', index=False)
+
+gill_df = clean_data(gill_df)
+gill_df.to_excel('gill_stats.xlsx', index=False)
+
+jaddu_df = clean_data(jaddu_df)
+jaddu_df.to_excel('jaddu_stats.xlsx', index=False)
+
+
+
+# Run Opposition_stats for Kohli
+kohli_opp = Opposition_stats(kohli_df)
+kohli_opp.to_excel('kohli_opp.xlsx', index=False)
+
+# Run Opposition_stats for Rohit
+rohit_opp = Opposition_stats(rohit_df)
+rohit_opp.to_excel('rohit_opp.xlsx', index=False)
+
+# Run Opposition_stats for Rahul
+rahul_opp = Opposition_stats(rahul_df)
+rahul_opp.to_excel('rahul_opp.xlsx', index=False)
+
+# Run Opposition_stats for Hardik
+hardik_opp = Opposition_stats(hardik_df)
+hardik_opp.to_excel('hardik_opp.xlsx', index=False)
+
+# Run Opposition_stats for Dhawan
+dhawan_opp = Opposition_stats(dhawan_df)
+dhawan_opp.to_excel('dhawan_opp.xlsx', index=False)
+
+# Run Opposition_stats for Sky
+sky_opp = Opposition_stats(sky_df)
+sky_opp.to_excel('sky_opp.xlsx', index=False)
+
+# Run Opposition_stats for Gill
+gill_opp = Opposition_stats(gill_df)
+gill_opp.to_excel('gill_opp.xlsx', index=False)
+
+# Run Opposition_stats for Jaddu
+jaddu_opp = Opposition_stats(jaddu_df)
+jaddu_opp.to_excel('jaddu_opp.xlsx', index=False)
+
+
+
+# Run Ground_stats for Kohli
+kohli_ground = Ground_stats(kohli_df)
+kohli_ground.to_excel('kohli_ground.xlsx', index=False)
+
+# Run Ground_stats for Rohit
+rohit_ground = Ground_stats(rohit_df)
+rohit_ground.to_excel('rohit_ground.xlsx', index=False)
+
+# Run Ground_stats for Rahul
+rahul_ground = Ground_stats(rahul_df)
+rahul_ground.to_excel('rahul_ground.xlsx', index=False)
+
+# Run Ground_stats for Hardik
+hardik_ground = Ground_stats(hardik_df)
+hardik_ground.to_excel('hardik_ground.xlsx', index=False)
+
+# Run Ground_stats for Dhawan
+dhawan_ground = Ground_stats(dhawan_df)
+dhawan_ground.to_excel('dhawan_ground.xlsx', index=False)
+
+# Run Ground_stats for Sky
+sky_ground = Ground_stats(sky_df)
+sky_ground.to_excel('sky_ground.xlsx', index=False)
+
+# Run Ground_stats for Gill
+gill_ground = Ground_stats(gill_df)
+gill_ground.to_excel('gill_ground.xlsx', index=False)
+
+# Run Ground_stats for Jaddu
+jaddu_ground = Ground_stats(jaddu_df)
+jaddu_ground.to_excel('jaddu_ground.xlsx', index=False)
+
+
+
+

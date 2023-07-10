@@ -1,0 +1,92 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from bs4 import BeautifulSoup
+import pandas as pd
+import numpy as np
+
+# Create a new instance of the Chrome driver
+driver = webdriver.Chrome()
+
+# Navigate to the URL
+driver.get("https://www.espncricinfo.com/cricketers/team/india-6/contracted-players")
+
+# Find all elements with class "ds-flex ds-flex-col"
+elements = driver.find_elements("xpath", "//*[contains(@class, 'ds-flex ds-flex-col')]")
+
+# Initialize empty lists to store name and url
+name_list = []
+url_list = []
+
+# Loop through the elements and extract the name and url of any anchor tags
+for element in elements:
+    anchor_tags = element.find_elements("tag name", "a")
+    for tag in anchor_tags:
+        name_list.append(tag.text)
+        url_list.append(tag.get_attribute("href"))
+       
+# Create a dictionary with the name and url lists
+data_dict = {'Name': name_list, 'URL': url_list}
+
+# Create a pandas DataFrame from the dictionary
+df = pd.DataFrame(data_dict)
+# Specify the row indices to drop
+rows_to_drop = [0, 1, 2, 3, 4, 5,6, 11, 13, 17, 18]
+
+# Drop the specified rows and reset the index
+df = df.drop(rows_to_drop).reset_index(drop=True)
+
+# Write the DataFrame to an Excel file
+df.to_excel('cricketers.xlsx', index=False)
+
+# Close the browser
+driver.quit()
+df
+
+
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from bs4 import BeautifulSoup
+import pandas as pd
+import numpy as np
+
+# Load the input file
+df = pd.read_excel("cricketers.xlsx")
+
+# Create a new instance of the Chrome driver
+driver = webdriver.Chrome(service=Service(executable_path=ChromeDriverManager().install()))
+
+# Loop through the dataframe and extract the URL and stats link for each player
+stats_links = []
+for i, row in df.iterrows():
+    name = row["Name"]
+    url = row["URL"]
+    
+    # Navigate to the URL
+    driver.get(url)
+    
+    # Find the link for T20I stats
+    try:
+        stats_link = driver.find_element(By.XPATH, "/html/body/div[1]/section/section/div[5]/div[1]/div[2]/div[2]/div[1]/div/div[1]/div/div[2]/a")
+    except:
+        stats_link = np.nan
+
+    # Save the stats link
+    stats_links.append(stats_link)
+    
+# Add the stats link as a new column in the dataframe
+df["Stats_Link"] = stats_links
+
+# Close the browser
+driver.quit()
+
+# Save the updated dataframe to a new file
+df.to_excel("cricketers_with_stats.xlsx", index=False)
+
+
+
+df
