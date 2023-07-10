@@ -32,3 +32,8 @@ drastically change how we collect and analyze statistical information about Indi
 players. We develop an integrated system using Selenium, Pandas, and Requests that speeds 
 the data scraping procedure and enables us to gain insightful information. With this initiative, 
 we hope to advance the field of cricket analytics through facilitating data-driven decision making in the Indian cricket industry. 
+To Follow the code properply i have divided codes as following section
+1) Data scrapping
+2) Data cleaning
+3) Data visualization and use of streamlit platform for hosting graphs and statistics
+4) LSTM algorithm Applications
